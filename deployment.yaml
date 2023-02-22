@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment # <--- change this 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask  # <--- change this to match label on the pod
+  template:
+    metadata:
+      labels:
+        app: flask
+      name: flask
+      namespace: default
+    spec:
+      containers:
+      - image: masted0pony/flask-restapi
+        imagePullPolicy: Always
+        name: flask
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File

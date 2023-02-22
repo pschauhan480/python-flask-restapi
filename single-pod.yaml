@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2023-02-22T20:15:30Z"
+  labels:
+    run: flask
+  name: flask
+  namespace: default
+  resourceVersion: "5186"
+  uid: 9326745a-7416-4004-9d37-8f58cdf23db4
+spec:
+  containers:
+  - image: masted0pony/flask-restapi
+    imagePullPolicy: Always
+    name: flask
+    ports:
+    - containerPort: 5000
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dhzh2
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-dhzh2
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2023-02-22T20:15:30Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2023-02-22T20:15:31Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2023-02-22T20:15:31Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2023-02-22T20:15:30Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://f8f8cfcb6c0a886629d8875fdc42d1eaeffcaa600c8b401abb74adaa7bb4d840
+    image: masted0pony/flask-restapi:latest
+    imageID: docker-pullable://masted0pony/flask-restapi@sha256:df415b992771cc4b4bccbef9c966ab54866fa1084c1d90b4ebddda06abbdfb6c
+    lastState: {}
+    name: flask
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2023-02-22T20:15:31Z"
+  hostIP: 192.168.49.2
+  phase: Running
+  podIP: 10.244.0.12
+  podIPs:
+  - ip: 10.244.0.12
+  qosClass: BestEffort
+  startTime: "2023-02-22T20:15:30Z"
